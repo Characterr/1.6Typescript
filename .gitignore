@@ -8,7 +8,7 @@ yarn-error.log
 !.yarn/plugins
 .pnp.*
 
-src
+#src
 .babelrc
 .yarnrc.yml
 package.json
@@ -19,3 +19,4 @@ webpack.config.js
 .gitattributes
 .eslintrc.js
 .husky/pre-commit
+*.json
