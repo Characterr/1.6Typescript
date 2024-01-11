@@ -97,7 +97,7 @@ interface Types {
     [a: string]: { cvalue: number | string | undefined | Types } | undefined;
 }
 
-let data: Types = {
+let data = {
     a: undefined,
     b: { cvalue: 1 },
     c: undefined,
@@ -106,7 +106,7 @@ let data: Types = {
 };
 
 let zero = 0.1; //2021
-function fun(obj: Types) {
+function fun<Types>(obj: Types) {
     let sum = 0;
 
     for (const elem in obj) {
@@ -122,22 +122,21 @@ function fun(obj: Types) {
         switch (type) {
             case "number": sum += +field; break;
             case "string": sum += +field; break;
-            case "object": sum += fun(field as Types); break;
+            case "object": sum += fun(field); break;
             default: sum += zero;
         }
     }
     return sum;
 }
-
 console.log(`сумма = ${fun(data)} (власна ф-ція)`);
 
-function summ(a: Types) {
-    const x = Object.keys(a).map((k) => {
+function summ<Types>(a: Types) {
+    const x = Object.keys(a as keyof Types).map((k) => {
         const elem = a[k as keyof Types];
         if (!elem) return zero;
         if (typeof elem === "string") return +elem || zero;
         if (typeof elem === "number") return elem;
-        return summ(elem as Types);
+        return summ(elem);
     });
 
     let sum = 0;
@@ -146,5 +145,4 @@ function summ(a: Types) {
     }
     return sum;
 }
-
 console.log(`сумма = ${summ(data)} (виправлена ф-ція)`);
